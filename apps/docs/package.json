@@ -1,0 +1,25 @@
+{
+  "name": "@solid-gadgets/docs",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Documentation of the Solid gadgets component library",
+  "scripts": {
+    "build": "vite build",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "vite --host",
+    "serve": "vite preview --port 3000",
+    "type:check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@felte/solid": "1.1.5",
+    "@felte/validator-yup": "1.0.3",
+    "@solid-gadgets/components": "workspace:*",
+    "@stitches/core": "1.2.8",
+    "prism-themes": "1.9.0",
+    "prismjs": "1.27.0",
+    "solid-app-router": "0.2.1",
+    "solid-js": "1.4.0",
+    "solid-transition-group": "0.0.10",
+    "yup": "0.32.11"
+  }
+}

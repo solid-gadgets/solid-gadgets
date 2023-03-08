@@ -1,0 +1,48 @@
+{
+  "name": "@solid-gadgets/components",
+  "version": "0.0.1",
+  "private": false,
+  "description": "A SolidJS component library.",
+  "keywords": [
+    "solid",
+    "solidjs",
+    "ui",
+    "library",
+    "design",
+    "system",
+    "components"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "vite serve dev --host",
+    "storybook": "start-storybook -p 6006",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "type:check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@solid-gadgets/utils": "workspace:*"
+  },
+  "peerDependencies": {
+    "solid-js": "^1.4.0",
+    "solid-transition-group": "^0.0.10"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
