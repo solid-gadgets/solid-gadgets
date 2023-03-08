@@ -7,14 +7,14 @@
     "packages/*"
   ],
   "scripts": {
-    "clean": "turbo run clean && rm -rf node_modules",
-    "init": "pnpm install && pnpm build",
     "build": "turbo run build",
+    "changeset": "changeset",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "commit": "git-cz",
     "dev:doc": "cd ./apps/docs && pnpm dev",
     "dev:storybook": "cd ./packages/components && pnpm storybook",
-    "changeset": "changeset",
-    "commit": "git-cz",
     "format": "prettier . --write --ignore-path .gitignore && git update-index --again",
+    "init": "pnpm install && pnpm build",
     "lint": "eslint . --ext .ts,.tsx --ignore-path .gitignore",
     "prepare": "husky install",
     "release": "turbo run build lint test && changeset publish",
@@ -27,10 +27,8 @@
       "prettier --write"
     ],
     "*.ts?(x)": [
-      "pnpm lint",
-      "prettier --write",
-      "pnpm type:check",
-      "pnpm test"
+      "eslint",
+      "prettier --write"
     ],
     "package.json": "npx sort-package-json"
   },
