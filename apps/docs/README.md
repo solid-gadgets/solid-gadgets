@@ -1,3 +1,3 @@
-## @solid-ui/docs
+## @solid-gadgets/docs
 
-Documentation website of the Solid UI component library.
+Documentation website of the Solid gadget component library.

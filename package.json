@@ -7,6 +7,7 @@
     "packages/*"
   ],
   "scripts": {
+    "beta": "changeset pre enter beta",
     "build": "turbo run build",
     "changeset": "changeset",
     "clean": "turbo run clean && rm -rf node_modules",
@@ -17,10 +18,10 @@
     "init": "pnpm install && pnpm build",
     "lint": "eslint . --ext .ts,.tsx --ignore-path .gitignore",
     "prepare": "husky install",
-    "release": "turbo run build lint test && changeset publish",
+    "release": "turbo run build && changeset publish",
     "test": "turbo run test",
     "type:check": "turbo run type:check",
-    "version-packages": "changeset version"
+    "version:packages": "changeset version"
   },
   "lint-staged": {
     "*.{md,json}": [

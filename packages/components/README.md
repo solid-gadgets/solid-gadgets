@@ -1,1 +1,1 @@
-# Solid-ui components
+# Solid-gadgets components
