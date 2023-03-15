@@ -2,6 +2,6 @@ import { testUtil } from ".";
 
 describe("Test", () => {
   it("should log.", () => {
-    expect(testUtil.name).toBe("testUtil");
+    expect(testUtil()).toBe("test util text");
   });
 });

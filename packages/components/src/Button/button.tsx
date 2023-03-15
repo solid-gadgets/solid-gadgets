@@ -1,6 +1,6 @@
 import { testUtil } from "@solid-gadgets/utils";
 
 export const Button = () => {
-  testUtil();
+  console.log(testUtil());
   return <div>Plain Button1</div>;
 };
