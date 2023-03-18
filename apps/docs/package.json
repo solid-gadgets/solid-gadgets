@@ -6,7 +6,7 @@
   "scripts": {
     "build": "vite build",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-    "dev": "vite --host",
+    "dev": "vite --mode dev",
     "serve": "vite preview --port 3000",
     "type:check": "tsc --noEmit"
   },

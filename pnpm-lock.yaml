@@ -41,6 +41,8 @@ importers:
       eslint-config-prettier: 8.5.0
       eslint-import-resolver-typescript: 2.7.1
       eslint-plugin-import: 2.26.0
+      eslint-plugin-jest: ^27.2.1
+      eslint-plugin-json: ^3.1.0
       eslint-plugin-jsx-a11y: 6.5.1
       eslint-plugin-prettier: 4.0.0
       eslint-plugin-simple-import-sort: 7.0.0
@@ -104,6 +106,8 @@ importers:
       eslint-config-prettier: 8.5.0_eslint@8.12.0
       eslint-import-resolver-typescript: 2.7.1_m4t3vvrby3btqwe437vnsnvyim
       eslint-plugin-import: 2.26.0_v7553xuiooqtxoizodjl66bgmm
+      eslint-plugin-jest: 27.2.1_u45m3ktnjsebpnuxdxdjy7f3nu
+      eslint-plugin-json: 3.1.0
       eslint-plugin-jsx-a11y: 6.5.1_eslint@8.12.0
       eslint-plugin-prettier: 4.0.0_6ler2d2uceywpuv5sikklk22gy
       eslint-plugin-simple-import-sort: 7.0.0_eslint@8.12.0
@@ -8384,6 +8388,36 @@ packages:
       - supports-color
     dev: true
 
+  /eslint-plugin-jest/27.2.1_u45m3ktnjsebpnuxdxdjy7f3nu:
+    resolution: {integrity: sha512-l067Uxx7ZT8cO9NJuf+eJHvt6bqJyz2Z29wykyEdz/OtmcELQl2MQGQLX8J94O1cSJWAwUSEvCjwjA7KEK3Hmg==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    peerDependencies:
+      '@typescript-eslint/eslint-plugin': ^5.0.0
+      eslint: ^7.0.0 || ^8.0.0
+      jest: '*'
+    peerDependenciesMeta:
+      '@typescript-eslint/eslint-plugin':
+        optional: true
+      jest:
+        optional: true
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 5.18.0_qop66kdz473gtxyqakjhziybiy
+      '@typescript-eslint/utils': 5.20.0_uhoeudlwl7kc47h4kncsfowede
+      eslint: 8.12.0
+      jest: 27.5.1
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+    dev: true
+
+  /eslint-plugin-json/3.1.0:
+    resolution: {integrity: sha512-MrlG2ynFEHe7wDGwbUuFPsaT2b1uhuEFhJ+W1f1u+1C2EkXmTYJp4B1aAdQQ8M+CC3t//N/oRKiIVw14L2HR1g==}
+    engines: {node: '>=12.0'}
+    dependencies:
+      lodash: 4.17.21
+      vscode-json-languageservice: 4.2.1
+    dev: true
+
   /eslint-plugin-jsx-a11y/6.5.1_eslint@8.12.0:
     resolution: {integrity: sha512-sVCFKX9fllURnXT2JwLN5Qgo24Ug5NF6dxhkmxsMEUZhXRcGg+X3e1JbJ84YePQKBl5E0ZjAH5Q4rkdcGY99+g==}
     engines: {node: '>=4.0'}
@@ -11180,6 +11214,10 @@ packages:
     resolution: {integrity: sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==}
     engines: {node: '>=6'}
     hasBin: true
+    dev: true
+
+  /jsonc-parser/3.2.0:
+    resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
     dev: true
 
   /jsonfile/2.4.0:
@@ -15814,6 +15852,32 @@ packages:
 
   /vm-browserify/1.1.2:
     resolution: {integrity: sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==}
+    dev: true
+
+  /vscode-json-languageservice/4.2.1:
+    resolution: {integrity: sha512-xGmv9QIWs2H8obGbWg+sIPI/3/pFgj/5OWBhNzs00BkYQ9UaB2F6JJaGB/2/YOZJ3BvLXQTC4Q7muqU25QgAhA==}
+    dependencies:
+      jsonc-parser: 3.2.0
+      vscode-languageserver-textdocument: 1.0.8
+      vscode-languageserver-types: 3.17.3
+      vscode-nls: 5.2.0
+      vscode-uri: 3.0.7
+    dev: true
+
+  /vscode-languageserver-textdocument/1.0.8:
+    resolution: {integrity: sha512-1bonkGqQs5/fxGT5UchTgjGVnfysL0O8v1AYMBjqTbWQTFn721zaPGDYFkOKtfDgFiSgXM3KwaG3FMGfW4Ed9Q==}
+    dev: true
+
+  /vscode-languageserver-types/3.17.3:
+    resolution: {integrity: sha512-SYU4z1dL0PyIMd4Vj8YOqFvHu7Hz/enbWtpfnVbJHU4Nd1YNYx8u0ennumc6h48GQNeOLxmwySmnADouT/AuZA==}
+    dev: true
+
+  /vscode-nls/5.2.0:
+    resolution: {integrity: sha512-RAaHx7B14ZU04EU31pT+rKz2/zSl7xMsfIZuo8pd+KZO6PXtQmpevpq3vxvWNcrGbdmhM/rr5Uw5Mz+NBfhVng==}
+    dev: true
+
+  /vscode-uri/3.0.7:
+    resolution: {integrity: sha512-eOpPHogvorZRobNqJGhapa0JdwaxpjVvyBp0QIUMRMSf8ZAlqOdEquKuRmw9Qwu0qXtJIWqFtMkmvJjUZmMjVA==}
     dev: true
 
   /w3c-hr-time/1.0.2:

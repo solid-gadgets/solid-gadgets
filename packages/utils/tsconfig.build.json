@@ -1,10 +1,14 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
+    "baseUrl": ".",
     "emitDeclarationOnly": true,
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "dist"
+    "declarationDir": "dist",
+    "paths": {
+      "@solid-gadgets/*": [""] // reset the resolve path from root tsconfig
+    }
   },
   "include": ["./src"],
   "exclude": ["**/*.spec.*", "**/*.test.*", "**/*.stories.*"]

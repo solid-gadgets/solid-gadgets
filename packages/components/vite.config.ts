@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import path from "path";
+
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import solidPlugin from "vite-plugin-solid";
 
 import pkg from "./package.json";
 
+// eslint-disable-next-line import/no-default-export
 export default defineConfig({
   plugins: [
     solidPlugin(),
@@ -16,6 +19,11 @@ export default defineConfig({
       logDiagnostics: true,
     }),
   ],
+  resolve: {
+    alias: {
+      "@solid-gadgets/utils": path.resolve(__dirname, "../../packages/utils/src/index.ts"),
+    },
+  },
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
