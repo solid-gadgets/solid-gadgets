@@ -12,7 +12,7 @@
     "changeset": "changeset",
     "clean": "turbo run clean && rm -rf node_modules",
     "commit": "git-cz",
-    "dev:doc": "cd ./apps/docs && pnpm dev",
+    "dev:doc": "cd ./apps/demo && pnpm dev",
     "dev:storybook": "cd ./packages/components && pnpm storybook",
     "format": "prettier . --write --ignore-path .gitignore && git update-index --again",
     "init": "pnpm install && pnpm build",
