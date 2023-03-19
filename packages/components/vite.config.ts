@@ -31,7 +31,13 @@ export default defineConfig({
       fileName: format => (format === "es" ? "index.mjs" : "index.cjs"),
     },
     rollupOptions: {
-      external: [...Object.keys(pkg.dependencies), "solid-js", "solid-js/web", "solid-js/store"],
+      external: [
+        ...Object.keys(pkg.dependencies),
+        "solid-js",
+        "solid-js/web",
+        "solid-js/store",
+        "solid-element",
+      ],
     },
   },
 });

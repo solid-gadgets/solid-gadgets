@@ -20,7 +20,7 @@ module.exports = {
   moduleNameMapper: {
     "solid-js/web": `${solidJsPath}/web/dist/web.cjs`,
     "solid-js/store": `${solidJsPath}/store/dist/store.cjs`,
-    "solid-js": `${solidJsPath}/dist/solid.cjs`
+    "solid-js": `${solidJsPath}/dist/solid.cjs`,
   },
 
   verbose: true,
