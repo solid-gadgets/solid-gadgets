@@ -4,6 +4,10 @@ const solidJsPath = `${pkgRootPath}/../../node_modules/solid-js`;
 module.exports = {
   preset: "ts-jest",
 
+  transform: {
+    "\\.scss$": "jest-scss-transform"
+  },
+
   globals: {
     "ts-jest": {
       tsconfig: `${pkgRootPath}/tsconfig.json`,

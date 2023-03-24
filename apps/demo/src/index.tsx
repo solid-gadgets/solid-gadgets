@@ -1,12 +1,15 @@
 import { Button } from "@solid-gadgets/components";
-import { customElement } from "solid-element";
+import { registerButton } from "@solid-gadgets/web-components";
 import { render } from "solid-js/web";
 
-customElement("so-button", {}, Button);
+registerButton("web-button", {
+  type: "primary",
+  children: document.createElement("div"),
+});
 
 const App = () => {
   console.log("call once");
-  return <Button />;
+  return <Button>button children</Button>;
 };
 
 const root = document.getElementById("root");

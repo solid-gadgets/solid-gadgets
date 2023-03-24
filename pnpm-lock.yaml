@@ -146,6 +146,7 @@ importers:
       '@felte/solid': 1.1.5
       '@felte/validator-yup': 1.0.3
       '@solid-gadgets/components': workspace:*
+      '@solid-gadgets/web-components': workspace:*
       '@stitches/core': 1.2.8
       prism-themes: 1.9.0
       prismjs: 1.27.0
@@ -157,6 +158,7 @@ importers:
       '@felte/solid': 1.1.5_solid-js@1.4.0
       '@felte/validator-yup': 1.0.3_yup@0.32.11
       '@solid-gadgets/components': link:../../packages/components
+      '@solid-gadgets/web-components': link:../../packages/web-components
       '@stitches/core': 1.2.8
       prism-themes: 1.9.0
       prismjs: 1.27.0
@@ -173,6 +175,12 @@ importers:
 
   packages/utils:
     specifiers: {}
+
+  packages/web-components:
+    specifiers:
+      '@solid-gadgets/components': workspace:*
+    dependencies:
+      '@solid-gadgets/components': link:../components
 
 packages:
 

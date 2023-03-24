@@ -17,14 +17,7 @@
     "skipLibCheck": true,
     "strict": true,
     "sourceMap": true,
-    "types": [
-      "solid-js",
-      "solid-element",
-      "vite/client",
-      "node",
-      "jest",
-      "@testing-library/jest-dom"
-    ],
+    "types": ["solid-js", "vite/client", "node", "jest", "@testing-library/jest-dom"],
     "paths": {
       "@solid-gadgets/*": ["./packages/*/src/index.ts"]
     }
