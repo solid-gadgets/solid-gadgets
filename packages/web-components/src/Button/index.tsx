@@ -1,17 +1,19 @@
 import { Button, buttonStyle, ButtonProps } from "@solid-gadgets/components";
 import { customElement } from "solid-element";
 
-export const registerButton = (tagName: string, props: ButtonProps) => {
-  console.log("register button props:", props);
+export const registerButton = (tagName: string, defaultProps: ButtonProps) => {
   const styledButton = (buttonProps: ButtonProps) => {
-    console.log("props from web button:", buttonProps);
     return (
       <>
         <style>{buttonStyle}</style>
-        <Button {...buttonProps} />
+        <Button {...buttonProps}>
+          <slot>default slot</slot>
+          <slot name="header"></slot>
+        </Button>
       </>
     );
   };
 
-  customElement(tagName, props, styledButton);
+  // you must provide the default props values so that we can use the props at web-component
+  customElement(tagName, defaultProps, styledButton);
 };

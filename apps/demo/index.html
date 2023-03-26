@@ -13,6 +13,9 @@
 
     <script src="/src/index.tsx" type="module"></script>
     <h2>web component button:</h2>
-    <web-button></web-button>
+    <web-button type="primary">
+      <div>default slot</div>
+      <div slot="header">header slot content</div>
+    </web-button>
   </body>
 </html>

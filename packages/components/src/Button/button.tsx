@@ -8,7 +8,13 @@ const SubButton = () => <div>sub button</div>;
 
 export const Button = ({ type = "default", children }: ButtonProps) => {
   console.log(testUtil());
-  console.log("children at button:", children);
+  if (Array.isArray(children)) {
+    console.log("button children:", children); // slots
+    console.log(
+      "button children names:",
+      (children as HTMLSlotElement[]).map(c => c.name)
+    ); // slots
+  }
   const [count, setCount] = createSignal(0);
   return (
     <div>
@@ -20,7 +26,9 @@ export const Button = ({ type = "default", children }: ButtonProps) => {
       <button class="button" onClick={() => setCount(count() + 1)}>
         +
       </button>
-      <span>Children: {children}</span>
+      <h4>Children:</h4>
+      {children}
+      <h4>other component</h4>
       <SubButton />
     </div>
   );
