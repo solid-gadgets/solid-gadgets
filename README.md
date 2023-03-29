@@ -6,9 +6,9 @@
 
 `pnpm run init`
 
-### document for solid-gadgets
+### demos for solid-gadgets
 
-`pnpm dev:doc`
+`pnpm dev:demo`
 
 ### storybook for solid-gadgets
 
@@ -30,4 +30,3 @@ only the main branch can be used to publish the formal version.
 `pnpm release` to publish
 
 ### License
-

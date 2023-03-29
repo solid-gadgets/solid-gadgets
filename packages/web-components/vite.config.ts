@@ -21,7 +21,10 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@solid-gadgets/utils": path.resolve(__dirname, "../../packages/utils/src/index.ts"),
+      "@solid-gadgets/components": path.resolve(
+        __dirname,
+        "../../packages/components/src/index.ts"
+      ),
     },
   },
   build: {
@@ -31,13 +34,7 @@ export default defineConfig({
       fileName: format => (format === "es" ? "index.mjs" : "index.cjs"),
     },
     rollupOptions: {
-      external: [
-        ...Object.keys(pkg.dependencies),
-        "solid-js",
-        "solid-js/web",
-        "solid-js/store",
-        "solid-element",
-      ],
+      external: [...Object.keys(pkg.dependencies), "solid-js", "solid-js/web", "solid-js/store"],
     },
   },
 });

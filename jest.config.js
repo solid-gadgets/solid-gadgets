@@ -4,6 +4,10 @@ const solidJsPath = `${pkgRootPath}/../../node_modules/solid-js`;
 module.exports = {
   preset: "ts-jest",
 
+  transform: {
+    "\\.scss$": "jest-scss-transform"
+  },
+
   globals: {
     "ts-jest": {
       tsconfig: `${pkgRootPath}/tsconfig.json`,
@@ -20,7 +24,7 @@ module.exports = {
   moduleNameMapper: {
     "solid-js/web": `${solidJsPath}/web/dist/web.cjs`,
     "solid-js/store": `${solidJsPath}/store/dist/store.cjs`,
-    "solid-js": `${solidJsPath}/dist/solid.cjs`
+    "solid-js": `${solidJsPath}/dist/solid.cjs`,
   },
 
   verbose: true,
