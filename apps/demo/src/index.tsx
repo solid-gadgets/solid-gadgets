@@ -2,11 +2,16 @@ import { Button } from "@solid-gadgets/components";
 import { registerButton } from "@solid-gadgets/web-components";
 import { render } from "solid-js/web";
 
-registerButton("web-button", { type: "default", children: () => "children" });
+registerButton({ type: "default", children: () => "children" });
 
 const App = () => {
   console.log("call once");
-  return <Button>button children</Button>;
+  return (
+    <Button>
+      <div>button children1</div>
+      <div>button children2</div>
+    </Button>
+  );
 };
 
 const root = document.getElementById("root");

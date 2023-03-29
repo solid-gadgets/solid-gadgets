@@ -12,7 +12,10 @@ export const Button = ({ type = "default", children }: ButtonProps) => {
     console.log("button children:", children); // slots
     console.log(
       "button children names:",
-      (children as HTMLSlotElement[]).map(c => c.name)
+      (children as HTMLSlotElement[]).map(c => {
+        c.setAttribute("style", "color: blue");
+        return c.name;
+      })
     ); // slots
   }
   const [count, setCount] = createSignal(0);
