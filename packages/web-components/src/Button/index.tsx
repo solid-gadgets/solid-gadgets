@@ -5,7 +5,14 @@ export const registerButton = (defaultProps: ButtonProps) => {
   const styledButton = (buttonProps: ButtonProps) => {
     return (
       <>
-        <style>{buttonStyle}</style>
+        <style>
+          {`* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }`}
+          {buttonStyle}
+        </style>
         <Button {...buttonProps}>
           <slot>default slot</slot>
           <slot name="header"></slot>

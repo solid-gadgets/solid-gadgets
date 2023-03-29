@@ -1,20 +1,40 @@
-import { Button } from "@solid-gadgets/components";
-import { registerButton } from "@solid-gadgets/web-components";
-import { render } from "solid-js/web";
+import { Routes, Route, A, Router } from "@solidjs/router";
+import { render, Index } from "solid-js/web";
 
-registerButton({ type: "default", children: () => "children" });
+import "./index.scss";
+import { routes } from "./routes";
 
 const App = () => {
-  console.log("call once");
   return (
-    <Button>
-      <div>button children1</div>
-      <div>button children2</div>
-    </Button>
+    <main class="main-container">
+      <section class="menu">
+        <Index each={routes} fallback={<div>Loading...</div>}>
+          {route => (
+            <div class="menu-item">
+              <A href={route().path}>{route().name}</A>
+            </div>
+          )}
+        </Index>
+      </section>
+      <section class="view">
+        <Routes>
+          <Index each={routes} fallback={<div>Loading...</div>}>
+            {route => <Route path={route().path} component={route().component} />}
+          </Index>
+        </Routes>
+      </section>
+    </main>
   );
 };
 
 const root = document.getElementById("root");
 if (root) {
-  render(App, root);
+  render(
+    () => (
+      <Router>
+        <App />
+      </Router>
+    ),
+    root
+  );
 }

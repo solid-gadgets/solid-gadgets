@@ -15,6 +15,7 @@
     "@felte/validator-yup": "1.0.3",
     "@solid-gadgets/components": "workspace:*",
     "@solid-gadgets/web-components": "workspace:*",
+    "@solidjs/router": "^0.8.2",
     "@stitches/core": "1.2.8",
     "prism-themes": "1.9.0",
     "prismjs": "1.27.0",
