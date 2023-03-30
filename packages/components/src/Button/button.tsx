@@ -1,19 +1,19 @@
-import { testUtil } from "@solid-gadgets/utils";
 import { createSignal } from "solid-js";
 
 import "./button.scss";
 import { ButtonProps } from "./type";
 
-const SubButton = () => <div>sub button</div>;
+export const SubButton = () => <div>sub button</div>;
 
 export const Button = ({ type = "default", children }: ButtonProps) => {
-  console.log(testUtil());
+  console.log((children as HTMLSlotElement)?.children);
   if (Array.isArray(children)) {
     console.log("button children:", children); // slots
     console.log(
       "button children names:",
       (children as HTMLSlotElement[]).map(c => {
-        c.setAttribute("style", "color: blue");
+        c.setAttribute?.("style", "color: blue");
+        console.log("slot children", c.children);
         return c.name;
       })
     ); // slots

@@ -1,4 +1,5 @@
-import { Button, buttonStyle, ButtonProps } from "@solid-gadgets/components";
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+import { Button, buttonStyle, ButtonProps, SubButton } from "@solid-gadgets/components";
 import { customElement } from "solid-element";
 
 export const registerButton = (defaultProps: ButtonProps) => {
@@ -14,8 +15,10 @@ export const registerButton = (defaultProps: ButtonProps) => {
           {buttonStyle}
         </style>
         <Button {...buttonProps}>
+          <slot></slot>
           <slot>default slot</slot>
           <slot name="header"></slot>
+          <slot name="list"></slot>
         </Button>
       </>
     );
@@ -23,4 +26,8 @@ export const registerButton = (defaultProps: ButtonProps) => {
 
   // you must provide the default props values so that we can use the props at web-component
   customElement("so-button", defaultProps, styledButton);
+};
+
+export const registerSubButton = () => {
+  customElement("so-sub-button", SubButton);
 };
