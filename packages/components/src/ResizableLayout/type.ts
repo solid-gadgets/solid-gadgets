@@ -16,3 +16,10 @@ export interface PaneProps {
   maxSize?: number | string;
   minSize?: number | string;
 }
+
+export interface PaneInfo {
+  doms: HTMLElement[];
+  sizes: number[];
+  maxSizes: number[];
+  minSizes: number[];
+}
