@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
+import { logWarn } from "@solid-gadgets/utils";
 import { ParentComponent, Index, Show, createMemo } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { PaneInfo, SplitterDirection, SplitterProps } from "./type";
 import "./index.scss";
 export * from "./type";
+
+const COMPONENT_NAME = "ResizableSplitter";
 
 /**
  * - All sizes must be added to total 1
@@ -17,7 +20,7 @@ function processSizes(sizes: number[]) {
 
   /** exceed 1, average each pane size */
   if (totalSetSize > 1) {
-    console.warn(`The total size of all panes exceed 1.`);
+    logWarn("The total size of all panes exceed 1.", COMPONENT_NAME);
     return sizes.map(() => 1 / sizes.length);
   }
 
@@ -30,7 +33,7 @@ function processSizes(sizes: number[]) {
   if (!unsetSizeIdx.length) {
     /** less than 1, average each pane size */
     if (totalSetSize < 1) {
-      console.warn(`The total size of all panes exceed 1.`);
+      logWarn("The total size of all panes exceed 1.", COMPONENT_NAME);
       return sizes.map(() => 1 / sizes.length);
     }
 
