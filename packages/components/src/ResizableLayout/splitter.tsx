@@ -3,8 +3,10 @@ import { logWarn } from "@solid-gadgets/utils";
 import { ParentComponent, Index, Show, createMemo } from "solid-js";
 import { createStore } from "solid-js/store";
 
+import { moveEventHandler } from "./core";
 import { PaneInfo, SplitterDirection, SplitterProps } from "./type";
 import "./index.scss";
+
 export * from "./type";
 
 const COMPONENT_NAME = "ResizableSplitter";
@@ -51,6 +53,7 @@ export const Splitter: ParentComponent<SplitterProps> = ({
   children,
   customClass = "",
   resizeBarClass = "",
+  pushOtherPane = false,
 }) => {
   const childrenArr = Array.isArray(children) ? children : [children];
   const paneInfo = childrenArr.reduce<PaneInfo>(
@@ -93,24 +96,6 @@ export const Splitter: ParentComponent<SplitterProps> = ({
       ? { width: `${(paneSizes[idx] * 100).toFixed(2)}%` }
       : { height: `${(paneSizes[idx] * 100).toFixed(2)}%` };
 
-  const checkBoundary = (idx: number, lastPaneSizePercent: number, nextPaneSizePercent: number) => {
-    /** last: left/top; next: right/bottom */
-    const lastPaneMinSize = paneInfo.minSizes[idx];
-    const lastPaneMaxSize = paneInfo.maxSizes[idx];
-    const nextPaneMinSize = paneInfo.minSizes[idx + 1];
-    const nextPaneMaxSize = paneInfo.maxSizes[idx + 1];
-
-    if (
-      lastPaneSizePercent > lastPaneMaxSize ||
-      lastPaneSizePercent < lastPaneMinSize ||
-      nextPaneSizePercent > nextPaneMaxSize ||
-      nextPaneSizePercent < nextPaneMinSize
-    )
-      return false;
-
-    return true;
-  };
-
   const mouseDown = (idx: number, downE: MouseEvent) => {
     downE.preventDefault();
 
@@ -119,37 +104,20 @@ export const Splitter: ParentComponent<SplitterProps> = ({
     const mouseMove = (e: MouseEvent) => {
       if (!containerRef) return;
 
-      /** previous accumulated sizes of all the panes at the left/top side of current bar */
-      const prevTotalSizePercent = paneSizes
-        .slice(0, idx + 1)
-        .reduce((total, size) => total + size, 0);
+      const lastPaneIdx = idx;
+      const nextPaneIdx = idx + 1;
 
-      /** the distance from the current bar to the left/top edge of the container */
-      const offsetSize =
-        direction() === SplitterDirection.VERTICAL
-          ? e.clientX - containerRef.offsetLeft
-          : e.clientY - containerRef.offsetTop;
-
-      const ContainerComputedStyle = getComputedStyle(containerRef);
-      /** current accumulated widths of all the panes at the left side of current bar */
-      const totalSizePercent =
-        offsetSize /
-        Number(
-          direction() === SplitterDirection.VERTICAL
-            ? ContainerComputedStyle.width.replace("px", "")
-            : ContainerComputedStyle.height.replace("px", "")
-        );
-
-      const sizeDiff = totalSizePercent - prevTotalSizePercent;
-
-      /** new size of the pane located at the left/top side of the bar */
-      const lastPaneSizePercent = paneSizes[idx] + sizeDiff;
-      const nextPaneSizePercent = paneSizes[idx + 1] - sizeDiff;
-
-      if (!checkBoundary(idx, lastPaneSizePercent, nextPaneSizePercent)) return;
-
-      setPaneSizes(idx, lastPaneSizePercent);
-      setPaneSizes(idx + 1, nextPaneSizePercent);
+      moveEventHandler({
+        event: e,
+        containerRef,
+        lastPaneIdx,
+        nextPaneIdx,
+        direction: direction(),
+        paneSizes,
+        paneInfo,
+        setPaneSizes,
+        pushOtherPane,
+      });
     };
 
     const mouseUp = () => {

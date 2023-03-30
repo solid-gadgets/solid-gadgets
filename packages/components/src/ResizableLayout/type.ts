@@ -8,6 +8,7 @@ export interface SplitterProps {
   horizontal?: boolean;
   customClass?: string;
   resizeBarClass?: string;
+  pushOtherPane?: boolean;
 }
 
 export interface PaneProps {

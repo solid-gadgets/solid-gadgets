@@ -6,14 +6,14 @@ export default () => {
 
   return (
     <>
-      <Splitter customClass="splitter-parent" resizeBarClass="resize-bar">
+      <Splitter customClass="splitter-parent" resizeBarClass="resize-bar" pushOtherPane>
         <Pane minSize="10" size="30">
           <div style={{ ...childStyle, background: "brown" }}>child1</div>
         </Pane>
-        <Pane customClass="my-pane">
+        <Pane customClass="my-pane" minSize="10">
           <div style={{ ...childStyle, background: "lightblue" }}>child2</div>
         </Pane>
-        <Pane customClass="my-pane">
+        <Pane customClass="my-pane" minSize="10">
           <div style={{ ...childStyle, background: "pink" }}>child3</div>
         </Pane>
         <Pane customClass="my-pane" maxSize="50">
@@ -27,9 +27,12 @@ export default () => {
             <Pane customClass="my-pane">
               <div style={{ ...childStyle, background: "lightblue" }}>child4-3</div>
             </Pane>
+            <Pane customClass="my-pane">
+              <div style={{ ...childStyle, background: "lightblue" }}>child4-4</div>
+            </Pane>
           </Splitter>
         </Pane>
-        <Pane customClass="my-pane" size="20">
+        <Pane customClass="my-pane" size="20" minSize="10">
           <div style={{ ...childStyle, background: "pink" }}>child5</div>
         </Pane>
       </Splitter>
