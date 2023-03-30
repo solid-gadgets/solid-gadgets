@@ -69,14 +69,18 @@ export const Splitter: ParentComponent<SplitterProps> = ({
 
   paneInfo.sizes = processSizes(paneInfo.sizes);
 
+  const [isDragging, setIsDragging] = createStore(childrenArr.map(() => false));
   const [paneSizes, setPaneSizes] = createStore([...paneInfo.sizes]);
 
+  const hasDragging = createMemo(() => isDragging.some(item => item));
   /** default as horizontal, horizontal has higher priority if both are provided */
   const direction = createMemo(() => {
     if (horizontal) return SplitterDirection.HORIZONTAL;
     return SplitterDirection.VERTICAL;
   });
-  const getSplitterClasses = createMemo(() => `${customClass} ${direction()}-flex`);
+  const getSplitterClasses = createMemo(
+    () => `${customClass} ${direction()}-flex ${hasDragging() ? `${direction()}-resizing` : ""}`
+  );
   const getResizeBarClass = createMemo(() => `${resizeBarClass} ${direction()}-resize`);
 
   // eslint-disable-next-line @typescript-eslint/init-declarations
@@ -89,11 +93,7 @@ export const Splitter: ParentComponent<SplitterProps> = ({
       ? { width: `${(paneSizes[idx] * 100).toFixed(2)}%` }
       : { height: `${(paneSizes[idx] * 100).toFixed(2)}%` };
 
-  const checkBoundary = (
-    idx: number,
-    lastPaneWidthPercent: number,
-    nextPaneWidthPercent: number
-  ) => {
+  const checkBoundary = (idx: number, lastPaneSizePercent: number, nextPaneSizePercent: number) => {
     /** last: left/top; next: right/bottom */
     const lastPaneMinSize = paneInfo.minSizes[idx];
     const lastPaneMaxSize = paneInfo.maxSizes[idx];
@@ -101,10 +101,10 @@ export const Splitter: ParentComponent<SplitterProps> = ({
     const nextPaneMaxSize = paneInfo.maxSizes[idx + 1];
 
     if (
-      lastPaneWidthPercent > lastPaneMaxSize ||
-      lastPaneWidthPercent < lastPaneMinSize ||
-      nextPaneWidthPercent > nextPaneMaxSize ||
-      nextPaneWidthPercent < nextPaneMinSize
+      lastPaneSizePercent > lastPaneMaxSize ||
+      lastPaneSizePercent < lastPaneMinSize ||
+      nextPaneSizePercent > nextPaneMaxSize ||
+      nextPaneSizePercent < nextPaneMinSize
     )
       return false;
 
@@ -113,6 +113,8 @@ export const Splitter: ParentComponent<SplitterProps> = ({
 
   const mouseDown = (idx: number, downE: MouseEvent) => {
     downE.preventDefault();
+
+    setIsDragging(idx, true);
 
     const mouseMove = (e: MouseEvent) => {
       if (!containerRef) return;
@@ -133,7 +135,7 @@ export const Splitter: ParentComponent<SplitterProps> = ({
       const totalSizePercent =
         offsetSize /
         Number(
-          SplitterDirection.VERTICAL
+          direction() === SplitterDirection.VERTICAL
             ? ContainerComputedStyle.width.replace("px", "")
             : ContainerComputedStyle.height.replace("px", "")
         );
@@ -141,16 +143,17 @@ export const Splitter: ParentComponent<SplitterProps> = ({
       const sizeDiff = totalSizePercent - prevTotalSizePercent;
 
       /** new size of the pane located at the left/top side of the bar */
-      const lastPaneWidthPercent = paneSizes[idx] + sizeDiff;
-      const nextPaneWidthPercent = paneSizes[idx + 1] - sizeDiff;
+      const lastPaneSizePercent = paneSizes[idx] + sizeDiff;
+      const nextPaneSizePercent = paneSizes[idx + 1] - sizeDiff;
 
-      if (!checkBoundary(idx, lastPaneWidthPercent, nextPaneWidthPercent)) return;
+      if (!checkBoundary(idx, lastPaneSizePercent, nextPaneSizePercent)) return;
 
-      setPaneSizes(idx, lastPaneWidthPercent);
-      setPaneSizes(idx + 1, nextPaneWidthPercent);
+      setPaneSizes(idx, lastPaneSizePercent);
+      setPaneSizes(idx + 1, nextPaneSizePercent);
     };
 
     const mouseUp = () => {
+      setIsDragging(idx, false);
       containerRef?.removeEventListener("mousemove", mouseMove);
       containerRef?.removeEventListener("mouseup", mouseUp);
     };
@@ -176,7 +179,9 @@ export const Splitter: ParentComponent<SplitterProps> = ({
               </div>
               <Show when={idx < childrenArr.length - 1}>
                 <div
-                  class={`resize-bar ${getResizeBarClass()}`}
+                  class={`resize-bar ${getResizeBarClass()} ${
+                    isDragging[idx] ? "resize-hover" : "resize-normal"
+                  }`}
                   ref={resizeBarRef[idx]}
                   onMouseDown={e => {
                     mouseDown(idx, e);

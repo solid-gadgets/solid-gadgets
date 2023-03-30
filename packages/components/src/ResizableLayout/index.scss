@@ -3,10 +3,21 @@
   height: 100%;
 }
 
+$resize-active-color: rgba($color: #b14a4a, $alpha: 1);
+$resize-normal-color: whitesmoke;
+
 .splitter-wrapper {
   display: flex;
   .resize-bar {
-    background-color: whitesmoke;
+    &:hover {
+      background-color: $resize-active-color;
+    };
+  }
+  .resize-hover {
+    background-color: $resize-active-color;
+  }
+  .resize-normal {
+    background-color: $resize-normal-color;
   }
   .horizontal-resize {
     height: 10px;
@@ -16,6 +27,14 @@
     width: 10px;
     cursor: col-resize;
   }
+}
+
+.horizontal-resizing {
+  cursor: row-resize;
+}
+
+.vertical-resizing {
+  cursor: col-resize;
 }
 
 .horizontal-flex {

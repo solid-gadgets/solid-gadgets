@@ -2,6 +2,7 @@ export enum SplitterDirection {
   HORIZONTAL = "horizontal",
   VERTICAL = "vertical",
 }
+
 export interface SplitterProps {
   /** default as vertical */
   horizontal?: boolean;
