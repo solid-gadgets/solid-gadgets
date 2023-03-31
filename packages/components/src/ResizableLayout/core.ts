@@ -1,35 +1,21 @@
 import { logWarn } from "@solid-gadgets/utils";
-import { SetStoreFunction } from "solid-js/store";
 
-import { PaneInfo, SplitterDirection } from "./type";
+import { MoveEventContext, SplitterDirection } from "./type";
 
 export const COMPONENT_NAME = "ResizableSplitter";
 
-export function moveEventHandler(context: {
-  paneSizes: readonly number[];
-  event: MouseEvent;
-  lastPaneIdx: number;
-  nextPaneIdx: number;
-  direction: SplitterDirection;
-  containerRef: HTMLElement;
-  paneInfo: PaneInfo;
-  setPaneSizes: SetStoreFunction<number[]>;
-  isMovingToLast?: boolean;
-  pushOtherPane: boolean;
-}) {
-  const {
-    event: e,
-    paneSizes,
-    lastPaneIdx,
-    nextPaneIdx,
-    containerRef,
-    direction,
-    paneInfo,
-    setPaneSizes,
-    isMovingToLast,
-    pushOtherPane,
-  } = context;
-
+export function moveEventHandler({
+  event: e,
+  paneSizes,
+  lastPaneIdx,
+  nextPaneIdx,
+  containerRef,
+  direction,
+  paneInfo,
+  setPaneSizes,
+  isMovingToLast,
+  pushOtherPane,
+}: MoveEventContext) {
   if (lastPaneIdx < 0 || nextPaneIdx >= paneSizes.length) return;
 
   const lastPaneMinSize = paneInfo.minSizes[lastPaneIdx];
@@ -37,6 +23,10 @@ export function moveEventHandler(context: {
   const nextPaneMinSize = paneInfo.minSizes[nextPaneIdx];
   const nextPaneMaxSize = paneInfo.maxSizes[nextPaneIdx];
 
+  /**
+   * Deal with the push other panes situation
+   * when isMovingToLast is true or undefined, should be nextPaneIdx
+   */
   const endIdx = isMovingToLast === false ? lastPaneIdx + 1 : nextPaneIdx;
   /** previous accumulated sizes of all the panes at the left/top side of current bar */
   const prevTotalSizePercent = paneSizes.slice(0, endIdx).reduce((total, size) => total + size, 0);
@@ -65,7 +55,6 @@ export function moveEventHandler(context: {
   const lastPaneSizePercent = paneSizes[lastPaneIdx] + sizeDiff;
   const nextPaneSizePercent = paneSizes[nextPaneIdx] - sizeDiff;
 
-  // if (!checkBoundary(lastPaneIdx, lastPaneSizePercent, nextPaneSizePercent)) return;
   if (
     (!isMoveToLast && lastPaneSizePercent > lastPaneMaxSize) ||
     (isMoveToLast && nextPaneSizePercent > nextPaneMaxSize)

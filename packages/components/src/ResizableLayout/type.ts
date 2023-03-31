@@ -1,3 +1,5 @@
+import { SetStoreFunction } from "solid-js/store";
+
 export enum SplitterDirection {
   HORIZONTAL = "horizontal",
   VERTICAL = "vertical",
@@ -24,4 +26,17 @@ export interface PaneInfo {
   sizes: number[];
   maxSizes: number[];
   minSizes: number[];
+}
+
+export interface MoveEventContext {
+  paneSizes: readonly number[];
+  event: MouseEvent;
+  lastPaneIdx: number;
+  nextPaneIdx: number;
+  direction: SplitterDirection;
+  containerRef: HTMLElement;
+  paneInfo: PaneInfo;
+  setPaneSizes: SetStoreFunction<number[]>;
+  isMovingToLast?: boolean;
+  pushOtherPane: boolean;
 }

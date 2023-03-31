@@ -1,46 +1,76 @@
+$resize-active-color: rgba($color: #e6dfdf, $alpha: 1);
+$resize-normal-color: whitesmoke;
+
 .pane-wrapper {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
-
-$resize-active-color: rgba($color: #b14a4a, $alpha: 1);
-$resize-normal-color: whitesmoke;
 
 .splitter-wrapper {
   display: flex;
   .resize-bar {
-    &:hover {
-      background-color: $resize-active-color;
-    };
+    position: relative;
+    z-index: 1000;
   }
-  .resize-hover {
+  .resize-bar-hover {
     background-color: $resize-active-color;
   }
-  .resize-normal {
+  .resize-bar-normal {
     background-color: $resize-normal-color;
   }
-  .horizontal-resize {
+}
+
+.horizontal-splitter {
+  flex-direction: column;
+  .splitter-horizontal-resizing {
+    cursor: row-resize;
+  }
+  .horizontal-resize-bar {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background-color: #00000026;
+      transform: translate(-50%);
+      width: 30px;
+      height: 1px;
+    }
+  }
+  .horizontal-bar-resizing {
     height: 10px;
     cursor: row-resize;
   }
-  .vertical-resize {
+}
+
+.vertical-splitter {
+  flex-direction: row;
+  .splitter-vertical-resizing {
+    cursor: col-resize;
+  }
+  .vertical-resize-bar {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background-color: #00000026;
+      transform: translate(-50%);
+      width: 1px;
+      height: 30px;
+    }
+  }
+  .vertical-bar-resizing {
     width: 10px;
     cursor: col-resize;
   }
 }
 
-.horizontal-resizing {
+.splitter-horizontal-resizing {
   cursor: row-resize;
 }
 
-.vertical-resizing {
+.splitter-vertical-resizing {
   cursor: col-resize;
-}
-
-.horizontal-flex {
-  flex-direction: column;
-}
-
-.vertical-flex {
-  flex-direction: row;
 }

@@ -55,6 +55,11 @@ export const Splitter: ParentComponent<SplitterProps> = ({
   resizeBarClass = "",
   pushOtherPane = false,
 }) => {
+  // eslint-disable-next-line @typescript-eslint/init-declarations
+  let containerRef: HTMLDivElement | undefined;
+  const paneRefs: HTMLDivElement[] = [];
+  const resizeBarRef: HTMLDivElement[] = [];
+
   const childrenArr = Array.isArray(children) ? children : [children];
   const paneInfo = childrenArr.reduce<PaneInfo>(
     (infos, child) => {
@@ -82,14 +87,14 @@ export const Splitter: ParentComponent<SplitterProps> = ({
     return SplitterDirection.VERTICAL;
   });
   const getSplitterClasses = createMemo(
-    () => `${customClass} ${direction()}-flex ${hasDragging() ? `${direction()}-resizing` : ""}`
+    () =>
+      `${customClass} ${direction()}-splitter ${
+        hasDragging() ? `splitter-${direction()}-resizing` : ""
+      }`
   );
-  const getResizeBarClass = createMemo(() => `${resizeBarClass} ${direction()}-resize`);
-
-  // eslint-disable-next-line @typescript-eslint/init-declarations
-  let containerRef: HTMLDivElement | undefined;
-  const paneRefs: HTMLDivElement[] = [];
-  const resizeBarRef: HTMLDivElement[] = [];
+  const getResizeBarClass = createMemo(
+    () => `${resizeBarClass} ${direction()}-resize-bar ${direction()}-bar-resizing`
+  );
 
   const getSplitterStyle = (idx: number) =>
     direction() === SplitterDirection.VERTICAL
@@ -148,7 +153,7 @@ export const Splitter: ParentComponent<SplitterProps> = ({
               <Show when={idx < childrenArr.length - 1}>
                 <div
                   class={`resize-bar ${getResizeBarClass()} ${
-                    isDragging[idx] ? "resize-hover" : "resize-normal"
+                    isDragging[idx] ? "resize-bar-hover" : "resize-bar-normal"
                   }`}
                   ref={resizeBarRef[idx]}
                   onMouseDown={e => {
