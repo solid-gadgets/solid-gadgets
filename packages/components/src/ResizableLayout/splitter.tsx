@@ -1,56 +1,16 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { logWarn } from "@solid-gadgets/utils";
-import { ParentComponent, Index, Show, createMemo } from "solid-js";
+import { ParentComponent, Index, Show, createMemo, createEffect } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { moveEventHandler } from "./core";
+import { moveEventHandler, processSizes } from "./core";
 import { PaneInfo, SplitterDirection, SplitterProps } from "./type";
 import "./index.scss";
 
 export * from "./type";
 
-const COMPONENT_NAME = "ResizableSplitter";
-
-/**
- * - All sizes must be added to total 1
- * - Default setting is averaging the sizes to each pane
- * - The sizes of the rest unset panes are averaged
- * @param sizes pane sizes as percentage
- */
-function processSizes(sizes: number[]) {
-  const totalSetSize = sizes.reduce((total, size) => total + size, 0);
-
-  /** exceed 1, average each pane size */
-  if (totalSetSize > 1) {
-    logWarn("The total size of all panes exceed 1.", COMPONENT_NAME);
-    return sizes.map(() => 1 / sizes.length);
-  }
-
-  /** all the index of the pane without size attribute */
-  const unsetSizeIdx: number[] = [];
-  sizes.forEach((size, idx) => {
-    if (size === 0) unsetSizeIdx.push(idx);
-  });
-
-  if (!unsetSizeIdx.length) {
-    /** less than 1, average each pane size */
-    if (totalSetSize < 1) {
-      logWarn("The total size of all panes exceed 1.", COMPONENT_NAME);
-      return sizes.map(() => 1 / sizes.length);
-    }
-
-    return sizes;
-  }
-
-  /** average size of the unset panes */
-  const averageSize = (1 - totalSetSize) / unsetSizeIdx.length;
-  unsetSizeIdx.forEach(idx => (sizes[idx] = averageSize));
-  return sizes;
-}
-
 export const Splitter: ParentComponent<SplitterProps> = ({
   horizontal,
-  children,
+  children = [],
   customClass = "",
   resizeBarClass = "",
   pushOtherPane = false,
@@ -60,25 +20,36 @@ export const Splitter: ParentComponent<SplitterProps> = ({
   const paneRefs: HTMLDivElement[] = [];
   const resizeBarRef: HTMLDivElement[] = [];
 
-  const childrenArr = Array.isArray(children) ? children : [children];
-  const paneInfo = childrenArr.reduce<PaneInfo>(
-    (infos, child) => {
-      const dom = (typeof child === "function" ? child() : child) as HTMLElement;
-      infos.doms.push(dom);
+  const childrenArr = createMemo(() => {
+    const resolved = typeof children === "function" ? children() : children;
+    return Array.isArray(resolved) ? resolved : [resolved];
+  });
+  const paneInfo = createMemo(() => {
+    const results = childrenArr().reduce<PaneInfo>(
+      (infos, child) => {
+        const dom = (typeof child === "function" ? child() : child) as HTMLElement;
+        infos.doms.push(dom);
 
-      infos.sizes.push(Number(dom.getAttribute("size") ?? 0) / 100);
-      infos.minSizes.push(Number(dom.getAttribute("minsize") ?? 0) / 100);
-      infos.maxSizes.push(Number(dom.getAttribute("maxsize") ?? 100) / 100);
+        infos.sizes.push(Number(dom.getAttribute("size") ?? 0) / 100);
+        infos.minSizes.push(Number(dom.getAttribute("minsize") ?? 0) / 100);
+        infos.maxSizes.push(Number(dom.getAttribute("maxsize") ?? 100) / 100);
 
-      return infos;
-    },
-    { doms: [], sizes: [], minSizes: [], maxSizes: [] }
-  );
+        return infos;
+      },
+      { doms: [], sizes: [], minSizes: [], maxSizes: [] }
+    );
 
-  paneInfo.sizes = processSizes(paneInfo.sizes);
+    results.sizes = processSizes(results.sizes);
+    return results;
+  });
 
-  const [isDragging, setIsDragging] = createStore(childrenArr.map(() => false));
-  const [paneSizes, setPaneSizes] = createStore([...paneInfo.sizes]);
+  const [isDragging, setIsDragging] = createStore<boolean[]>([]);
+  const [paneSizes, setPaneSizes] = createStore<number[]>([]);
+  /** tracking the paneInfo and childrenArr changes */
+  createEffect(() => {
+    setPaneSizes([...paneInfo().sizes]);
+    setIsDragging(childrenArr().map(() => false));
+  });
 
   const hasDragging = createMemo(() => isDragging.some(item => item));
   /** default as horizontal, horizontal has higher priority if both are provided */
@@ -119,7 +90,7 @@ export const Splitter: ParentComponent<SplitterProps> = ({
         nextPaneIdx,
         direction: direction(),
         paneSizes,
-        paneInfo,
+        paneInfo: paneInfo(),
         setPaneSizes,
         pushOtherPane,
       });
@@ -143,14 +114,14 @@ export const Splitter: ParentComponent<SplitterProps> = ({
 
   return (
     <main class={`splitter-wrapper ${getSplitterClasses()}`} ref={containerRef}>
-      <Index each={childrenArr}>
+      <Index each={childrenArr()}>
         {(child, idx) => {
           return (
             <>
               <div class="item-wrapper" style={getSplitterStyle(idx)} ref={paneRefs[idx]}>
                 {child}
               </div>
-              <Show when={idx < childrenArr.length - 1}>
+              <Show when={idx < childrenArr().length - 1}>
                 <div
                   class={`resize-bar ${getResizeBarClass()} ${
                     isDragging[idx] ? "resize-bar-hover" : "resize-bar-normal"

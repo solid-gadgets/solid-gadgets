@@ -94,11 +94,13 @@ export function moveEventHandler({
  */
 export function processSizes(sizes: number[]) {
   const totalSetSize = sizes.reduce((total, size) => total + size, 0);
+  const averagedSizes = sizes.map(() => 1 / sizes.length);
+  if (totalSetSize === 0) return averagedSizes;
 
   /** exceed 1, average each pane size */
   if (totalSetSize > 1) {
     logWarn("The total size of all panes exceed 1.", COMPONENT_NAME);
-    return sizes.map(() => 1 / sizes.length);
+    return averagedSizes;
   }
 
   /** all the index of the pane without size attribute */
@@ -110,8 +112,8 @@ export function processSizes(sizes: number[]) {
   if (!unsetSizeIdx.length) {
     /** less than 1, average each pane size */
     if (totalSetSize < 1) {
-      logWarn("The total size of all panes exceed 1.", COMPONENT_NAME);
-      return sizes.map(() => 1 / sizes.length);
+      logWarn("The total size of all panes is less than 1.", COMPONENT_NAME);
+      return averagedSizes;
     }
 
     return sizes;
