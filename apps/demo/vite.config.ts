@@ -1,10 +1,24 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
 import { defineConfig } from "vite";
 import prismjs from "vite-plugin-prismjs";
 import solidPlugin from "vite-plugin-solid";
+
+const getWebEntry = () => {
+  const demoDirs = fs.readdirSync(path.resolve(__dirname, "./src/web-demos"));
+  return demoDirs.reduce<Record<string, string>>(
+    (entries, dirName) => {
+      entries[dirName] = path.resolve(__dirname, `./src/web-demos/${dirName}/index.html`);
+      return entries;
+    },
+    {
+      solidDemo: path.resolve(__dirname, "./index.html"),
+    }
+  );
+};
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
@@ -33,5 +47,8 @@ export default defineConfig({
   build: {
     target: "esnext",
     polyfillDynamicImport: false,
+    rollupOptions: {
+      input: getWebEntry(),
+    },
   },
 });

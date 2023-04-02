@@ -1,24 +1,58 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Pane, PaneProps, Splitter, SplitterProps, SplitterStyle } from "@solid-gadgets/components";
 import { customElement } from "solid-element";
-import { createEffect, createSignal } from "solid-js";
+import { JSX, createEffect, createSignal } from "solid-js";
 
-const defaultSplitterProps: SplitterProps = {
+export interface WebSplitterProps extends SplitterProps {
+  splitterName: string;
+  styleName: string;
+}
+
+const defaultSplitterProps: WebSplitterProps = {
   horizontal: false,
   customClass: "",
   resizeBarClass: "",
   pushOtherPane: false,
+  splitterName: "default",
+  styleName: "default",
 };
 
+const splitterDomMap = new Map<string, Element>();
+
 export const registerSplitter = () => {
-  const webSplitter = (splitterProps: SplitterProps) => {
-    const [children, setChildren] = createSignal<Element[]>([]);
+  const webSplitter = (splitterProps: WebSplitterProps) => {
+    const [children, setChildren] = createSignal<(Element | JSX.Element)[]>([]);
 
     createEffect(() => {
-      const panes = document?.querySelectorAll("so-pane");
-      setChildren([...panes]);
+      const splitterDom =
+        splitterDomMap.get(splitterProps.splitterName) ??
+        [...(document?.querySelectorAll(`so-splitter`) ?? [])].filter(splitter => {
+          const name = splitter.getAttribute("splitter-name") ?? "default";
+          /** the so-splitter doms can only be queried from the root, so store them at the root query */
+          splitterDomMap.set(name, splitter);
+          return splitter.getAttribute("splitter-name") === splitterProps.splitterName;
+        })[0];
+
+      const panes = splitterDom?.querySelectorAll(
+        `div[splitter-name=${splitterProps.splitterName}]`
+      );
+
+      setChildren(
+        [...panes].map(pane => {
+          const paneProps: PaneProps = {
+            customClass: pane.getAttribute("custom-class") ?? "",
+            maxSize: pane.getAttribute("max-size") ?? 100,
+            minSize: pane.getAttribute("min-size") ?? 0,
+            size: pane.getAttribute("size") ?? 0,
+          };
+          return <Pane {...paneProps}>{[...pane.children]}</Pane>;
+        })
+      );
     });
 
+    const styleDom = document.querySelectorAll(`style`);
+    const styleCode = styleDom?.[0]?.innerHTML ?? "";
+    console.log(styleDom, styleDom?.[1]?.getAttribute("type"));
     return (
       <>
         <style>
@@ -27,37 +61,9 @@ export const registerSplitter = () => {
             padding: 0;
             box-sizing: border-box;
           }
-          .child-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 0 3px #0003 inset;
-            background-color: #b3b1b1;
-          }
-          .desc {
-            font-size: 1rem;
-            color: rgb(231, 228, 228);
-          }
-          .my-pane {
-            color: white;
-            font-family: Helvetica,Arial,sans-serif;
-            font-size: 2rem;
-            opacity: .7;
-          }
-          .splitter-parent {
-            width: 1000px;
-            height: 500px;
-            border: 1px solid rgb(224, 224, 232);
-          }
-          .splitter-child {
-            width: 100%;
-            height: 100%;
-          }
           `}
           {SplitterStyle}
+          {styleCode}
         </style>
         <Splitter {...splitterProps} children={children}></Splitter>
       </>
@@ -65,33 +71,4 @@ export const registerSplitter = () => {
   };
 
   customElement("so-splitter", defaultSplitterProps, webSplitter);
-};
-
-const defaultPaneProps: PaneProps = {
-  customClass: "",
-  size: 0,
-  maxSize: 100,
-  minSize: 0,
-};
-
-export const registerPane = () => {
-  const webPane = (paneProps: PaneProps) => {
-    return (
-      <>
-        <style>
-          {`* {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }`}
-          {SplitterStyle}
-        </style>
-        <Pane {...paneProps}>
-          <slot></slot>
-        </Pane>
-      </>
-    );
-  };
-
-  customElement("so-pane", defaultPaneProps, webPane);
 };

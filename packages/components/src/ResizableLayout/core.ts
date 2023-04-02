@@ -34,8 +34,9 @@ export function moveEventHandler({
   /** the distance from the current bar to the left/top edge of the container */
   const offsetSize =
     direction === SplitterDirection.VERTICAL
-      ? e.clientX - containerRef.offsetLeft
-      : e.clientY - containerRef.offsetTop;
+      ? // should not use clientX/Y which will cause issue when scroller exists
+        e.pageX - containerRef.offsetLeft
+      : e.pageY - containerRef.offsetTop;
 
   const ContainerComputedStyle = getComputedStyle(containerRef);
   /** current accumulated widths of all the panes at the left side of current bar */
