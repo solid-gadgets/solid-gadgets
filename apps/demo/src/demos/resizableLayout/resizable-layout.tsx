@@ -1,5 +1,6 @@
 import { Splitter, Pane } from "@solid-gadgets/components";
 import { createMemo, createSignal } from "solid-js";
+
 import "./index.scss";
 
 export default () => {

@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Pane, PaneProps, Splitter, SplitterProps, SplitterStyle } from "@solid-gadgets/components";
 import { customElement } from "solid-element";
-import { JSX, createEffect, createSignal } from "solid-js";
+import { onMount, createUniqueId, createMemo } from "solid-js";
 
 export interface WebSplitterProps extends SplitterProps {
-  splitterName: string;
-  styleName: string;
+  styleCode: string;
+  styleLink: string;
+  splitterId: string;
 }
 
 const defaultSplitterProps: WebSplitterProps = {
@@ -13,46 +14,49 @@ const defaultSplitterProps: WebSplitterProps = {
   customClass: "",
   resizeBarClass: "",
   pushOtherPane: false,
-  splitterName: "default",
-  styleName: "default",
+  styleCode: "",
+  splitterId: "0",
+  styleLink: "",
 };
 
-const splitterDomMap = new Map<string, Element>();
-
 export const registerSplitter = () => {
+  const splitterMap = new Map<string, Element>();
+
   const webSplitter = (splitterProps: WebSplitterProps) => {
-    const [children, setChildren] = createSignal<(Element | JSX.Element)[]>([]);
+    const children = createMemo(() => {
+      const splitterDom = splitterMap.get(splitterProps.splitterId);
+      const panes = splitterDom?.children ?? [];
 
-    createEffect(() => {
-      const splitterDom =
-        splitterDomMap.get(splitterProps.splitterName) ??
-        [...(document?.querySelectorAll(`so-splitter`) ?? [])].filter(splitter => {
-          const name = splitter.getAttribute("splitter-name") ?? "default";
-          /** the so-splitter doms can only be queried from the root, so store them at the root query */
-          splitterDomMap.set(name, splitter);
-          return splitter.getAttribute("splitter-name") === splitterProps.splitterName;
-        })[0];
-
-      const panes = splitterDom?.querySelectorAll(
-        `div[splitter-name=${splitterProps.splitterName}]`
-      );
-
-      setChildren(
-        [...panes].map(pane => {
-          const paneProps: PaneProps = {
-            customClass: pane.getAttribute("custom-class") ?? "",
-            maxSize: pane.getAttribute("max-size") ?? 100,
-            minSize: pane.getAttribute("min-size") ?? 0,
-            size: pane.getAttribute("size") ?? 0,
-          };
-          return <Pane {...paneProps}>{[...pane.children]}</Pane>;
-        })
-      );
+      return [...panes].map(pane => {
+        const paneProps: PaneProps = {
+          customClass: pane.getAttribute("custom-class") ?? "",
+          maxSize: pane.getAttribute("max-size") ?? 100,
+          minSize: pane.getAttribute("min-size") ?? 0,
+          size: pane.getAttribute("size") ?? 0,
+        };
+        return <Pane {...paneProps}>{[...pane.children]}</Pane>;
+      });
     });
 
-    const styleDom = document.querySelectorAll(`style`);
-    const styleCode = styleDom?.[0]?.innerHTML ?? "";
-    console.log(styleDom, styleDom?.[1]?.getAttribute("type"));
+    onMount(() => {
+      // already set the id, no need to query all the splitters again
+      if (splitterProps.splitterId !== "0") return;
+
+      const splitterDoms = document.querySelectorAll("so-splitter");
+
+      // add id to all the splitters
+      splitterDoms.forEach(splitter => {
+        const splitterId = splitter.getAttribute("splitter-id");
+        if (!splitterId) {
+          const id = createUniqueId();
+          splitter.setAttribute("splitter-id", id);
+          splitterMap.set(id, splitter);
+        } else {
+          splitterMap.set(splitterId, splitter);
+        }
+      });
+    });
+
     return (
       <>
         <style>
@@ -63,8 +67,11 @@ export const registerSplitter = () => {
           }
           `}
           {SplitterStyle}
-          {styleCode}
+          {splitterProps.styleCode}
         </style>
+        {splitterProps.styleLink?.trim() !== "" && (
+          <link rel="stylesheet" href={splitterProps.styleLink} />
+        )}
         <Splitter {...splitterProps} children={children}></Splitter>
       </>
     );
