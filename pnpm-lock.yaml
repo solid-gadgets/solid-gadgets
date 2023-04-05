@@ -181,8 +181,10 @@ importers:
   packages/web-components:
     specifiers:
       '@solid-gadgets/components': workspace:*
+      '@solid-gadgets/utils': workspace:*
     dependencies:
       '@solid-gadgets/components': link:../components
+      '@solid-gadgets/utils': link:../utils
 
 packages:
 
