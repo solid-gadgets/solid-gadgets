@@ -5,7 +5,7 @@ import "./index.scss";
 
 export const Pane: ParentComponent<PaneProps> = ({ customClass = "", children, ...rest }) => {
   return (
-    <section class={`pane-wrapper ${customClass}`} {...rest}>
+    <section class={`resizable-splitter__pane-wrapper ${customClass}`} {...rest}>
       {children}
     </section>
   );

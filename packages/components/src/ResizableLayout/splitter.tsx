@@ -59,12 +59,13 @@ export const Splitter: ParentComponent<SplitterProps> = ({
   });
   const getSplitterClasses = createMemo(
     () =>
-      `${customClass} ${direction()}-splitter ${
-        hasDragging() ? `splitter-${direction()}-resizing` : ""
-      }`
+      `resizable-splitter__splitter-wrapper  resizable-splitter__${direction()}-splitter ${
+        hasDragging() ? `resizable-splitter__splitter-${direction()}-resizing ` : ""
+      } ${customClass}`
   );
   const getResizeBarClass = createMemo(
-    () => `${resizeBarClass} ${direction()}-resize-bar ${direction()}-bar-resizing`
+    () =>
+      `resizable-splitter__resize-bar resizable-splitter__${direction()}-resize-bar resizable-splitter__${direction()}-bar-resizing ${resizeBarClass}`
   );
 
   const getSplitterStyle = (idx: number) =>
@@ -113,18 +114,20 @@ export const Splitter: ParentComponent<SplitterProps> = ({
   };
 
   return (
-    <main class={`splitter-wrapper ${getSplitterClasses()}`} ref={containerRef}>
+    <main class={getSplitterClasses()} ref={containerRef}>
       <Index each={childrenArr()}>
         {(child, idx) => {
           return (
             <>
-              <div class="item-wrapper" style={getSplitterStyle(idx)} ref={paneRefs[idx]}>
+              <div style={getSplitterStyle(idx)} ref={paneRefs[idx]}>
                 {child}
               </div>
               <Show when={idx < childrenArr().length - 1}>
                 <div
-                  class={`resize-bar ${getResizeBarClass()} ${
-                    isDragging[idx] ? "resize-bar-hover" : "resize-bar-normal"
+                  class={`${getResizeBarClass()} ${
+                    isDragging[idx]
+                      ? "resizable-splitter__resize-bar-hover"
+                      : "resizable-splitter__resize-bar-normal"
                   }`}
                   ref={resizeBarRef[idx]}
                   onMouseDown={e => {
