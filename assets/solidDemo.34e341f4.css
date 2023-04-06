@@ -1,0 +1,1 @@
+*{margin:0;padding:0;box-sizing:border-box}.main-container{display:flex}.main-container .menu{padding:1rem;width:200px;height:100vh;overflow:auto;border-right:solid 1px #e5e7eb}.main-container .menu .menu-item{margin-bottom:10px;width:fit-content}.main-container .view{padding:1rem}
