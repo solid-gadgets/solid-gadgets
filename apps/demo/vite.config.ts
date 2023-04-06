@@ -22,6 +22,7 @@ const getWebEntry = () => {
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
+  base: "solid-gadgets",
   plugins: [
     solidPlugin(),
     prismjs({

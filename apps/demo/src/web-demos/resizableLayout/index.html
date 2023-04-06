@@ -8,11 +8,7 @@
     <script src="./index.ts" type="module"></script>
   </head>
   <body>
-    <so-splitter
-      custom-class="splitter-parent"
-      push-other-pane="true"
-      style-link="/src/demos/resizableLayout/index.scss"
-    >
+    <so-splitter custom-class="splitter-parent" push-other-pane="true">
       <div custom-class="my-pane" max-size="40" size="30">
         <div class="child-container">
           <section class="content">child1</section>
@@ -20,16 +16,9 @@
         </div>
       </div>
       <div custom-class="my-pane">
-        <so-splitter
-          custom-class="splitter-child"
-          horizontal="true"
-          style-link="/src/demos/resizableLayout/index.scss"
-        >
+        <so-splitter custom-class="splitter-child" horizontal="true">
           <div custom-class="my-pane">
-            <so-splitter
-              custom-class="splitter-child"
-              style-link="/src/demos/resizableLayout/index.scss"
-            >
+            <so-splitter custom-class="splitter-child">
               <div custom-class="my-pane">
                 <div class="child-container">child2-1-1</div>
               </div>
@@ -54,11 +43,7 @@
       </div>
     </so-splitter>
     <br />
-    <so-splitter
-      custom-class="splitter-parent"
-      push-other-pane="true"
-      style-link="/src/demos/resizableLayout/index.scss"
-    >
+    <so-splitter custom-class="splitter-parent" push-other-pane="true">
       <div custom-class="my-pane" max-size="40" size="30">
         <div class="child-container">
           <section class="content">child1</section>
@@ -66,16 +51,9 @@
         </div>
       </div>
       <div custom-class="my-pane">
-        <so-splitter
-          custom-class="splitter-child"
-          horizontal="true"
-          style-link="/src/demos/resizableLayout/index.scss"
-        >
+        <so-splitter custom-class="splitter-child" horizontal="true">
           <div custom-class="my-pane">
-            <so-splitter
-              custom-class="splitter-child"
-              style-link="/src/demos/resizableLayout/index.scss"
-            >
+            <so-splitter custom-class="splitter-child">
               <div custom-class="my-pane">
                 <div class="child-container">child2-1-1</div>
               </div>

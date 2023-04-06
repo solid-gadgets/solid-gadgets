@@ -29,4 +29,8 @@ only the main branch can be used to publish the formal version.
 `pnpm version:packages` to update the versions
 `pnpm release` to publish
 
+### deploy github page for demos
+
+`pnpm gh:demos`
+
 ### License

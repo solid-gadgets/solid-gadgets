@@ -31,7 +31,7 @@ const root = document.getElementById("root");
 if (root) {
   render(
     () => (
-      <Router>
+      <Router base="solid-gadgets">
         <App />
       </Router>
     ),

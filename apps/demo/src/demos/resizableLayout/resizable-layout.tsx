@@ -24,7 +24,9 @@ export default () => {
     <>
       <button onclick={addPane}>add a pane</button>
       <button onclick={subPane}>sub a pane</button>
-      <button onclick={() => window.open("/src/web-demos/resizableLayout/index.html")}>
+      <button
+        onclick={() => window.open("/solid-gadgets/src/web-demos/resizableLayout/index.html")}
+      >
         Web Component Demo
       </button>
       <Splitter customClass="splitter-parent" resizeBarClass="my-resize-bar" pushOtherPane>

@@ -1,5 +1,5 @@
 {
-  "name": "@solid-gadgets/docs",
+  "name": "@solid-gadgets/demos",
   "version": "0.0.1",
   "private": true,
   "description": "Documentation of the Solid gadgets component library",
@@ -7,6 +7,7 @@
     "build": "vite build",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "dev": "vite --mode dev",
+    "gh": "pnpm build && gh-pages -d ./dist -b solid-gadgets-demos-page",
     "serve": "vite preview --port 3000",
     "type:check": "tsc --noEmit"
   },
