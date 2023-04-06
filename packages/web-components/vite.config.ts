@@ -25,6 +25,7 @@ export default defineConfig({
         __dirname,
         "../../packages/components/src/index.ts"
       ),
+      "@solid-gadgets/utils": path.resolve(__dirname, "../../packages/utils/src/index.ts"),
     },
   },
   build: {

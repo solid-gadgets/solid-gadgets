@@ -1,0 +1,25 @@
+$split-border-color: #e5e7eb;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-container {
+  display: flex;
+  .menu {
+    padding: 1rem;
+    width: 200px;
+    height: 100vh;
+    overflow: auto;
+    border-right: solid 1px $split-border-color;
+    .menu-item {
+      margin-bottom: 10px;
+      width: fit-content;
+    }
+  }
+  .view {
+    padding: 1rem;
+  }
+}

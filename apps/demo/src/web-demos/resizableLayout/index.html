@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./index.ts" type="module"></script>
+  </head>
+  <body>
+    <so-splitter custom-class="splitter-parent" push-other-pane="true">
+      <div custom-class="my-pane" max-size="40" size="30">
+        <div class="child-container">
+          <section class="content">child1</section>
+          <section class="desc">With Maximum size of 40%</section>
+        </div>
+      </div>
+      <div custom-class="my-pane">
+        <so-splitter custom-class="splitter-child" horizontal="true">
+          <div custom-class="my-pane">
+            <so-splitter custom-class="splitter-child">
+              <div custom-class="my-pane">
+                <div class="child-container">child2-1-1</div>
+              </div>
+              <div custom-class="my-pane">
+                <div class="child-container">child2-1-2</div>
+              </div>
+            </so-splitter>
+          </div>
+          <div custom-class="my-pane">
+            <div class="child-container">child2-2</div>
+          </div>
+          <div custom-class="my-pane">
+            <div class="child-container">child2-3</div>
+          </div>
+        </so-splitter>
+      </div>
+      <div custom-class="my-pane" min-size="10">
+        <div class="child-container">child3</div>
+      </div>
+      <div custom-class="my-pane">
+        <div class="child-container">child4</div>
+      </div>
+    </so-splitter>
+    <br />
+    <so-splitter custom-class="splitter-parent" push-other-pane="true">
+      <div custom-class="my-pane" max-size="40" size="30">
+        <div class="child-container">
+          <section class="content">child1</section>
+          <section class="desc">With Maximum size of 40%</section>
+        </div>
+      </div>
+      <div custom-class="my-pane">
+        <so-splitter custom-class="splitter-child" horizontal="true">
+          <div custom-class="my-pane">
+            <so-splitter custom-class="splitter-child">
+              <div custom-class="my-pane">
+                <div class="child-container">child2-1-1</div>
+              </div>
+              <div custom-class="my-pane">
+                <div class="child-container">child2-1-2</div>
+              </div>
+            </so-splitter>
+          </div>
+          <div custom-class="my-pane">
+            <div class="child-container">child2-2</div>
+          </div>
+          <div custom-class="my-pane">
+            <div class="child-container">child2-3</div>
+          </div>
+        </so-splitter>
+      </div>
+      <div custom-class="my-pane" min-size="10">
+        <div class="child-container">child3</div>
+      </div>
+      <div custom-class="my-pane">
+        <div class="child-container">child4</div>
+      </div>
+    </so-splitter>
+  </body>
+</html>

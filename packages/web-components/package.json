@@ -34,7 +34,8 @@
     "type:check": "tsc --noEmit"
   },
   "dependencies": {
-    "@solid-gadgets/components": "workspace:*"
+    "@solid-gadgets/components": "workspace:*",
+    "@solid-gadgets/utils": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

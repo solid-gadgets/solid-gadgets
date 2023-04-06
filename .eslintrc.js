@@ -62,7 +62,7 @@ const TypescriptRules = {
       },
     },
   ],
-  "import/no-default-export": "error",
+  "import/no-default-export": "off",
   "@typescript-eslint/no-magic-numbers": ["error", { ignore: [-1, 0, 1] }],
 };
 

@@ -1,7 +1,3 @@
 # Solid-gadgets web-components
 
-## naming convention
-
-```html
-<so-xxxx></so-xxxx> <so-button></so-button>
-```
+- [Resizable Splitter](./src/ResizableLayout/README.md)
