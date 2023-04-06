@@ -1,8 +1,8 @@
 # Solid-gadgets components
 
-```js script
-import { Button } from "./index.ts";
-Button.registerAsWebComponent();
-```
+Here are some practical solid components that you can use in your daily projects.
+Your may also find its corresponding web-component~
 
-<so-ga-button></so-ga-button>
+You can see the [demos](https://s-elo.github.io/solid-gadgets/) here as well.
+
+- [Resizable Splitter](./src/ResizableLayout/README.md)

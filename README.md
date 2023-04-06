@@ -1,5 +1,8 @@
 # solid-gadgets
 
+- [Components](./packages/components/README.md)
+- [Web Components](./packages/web-components/README.md)
+
 ## dev
 
 ### setup
