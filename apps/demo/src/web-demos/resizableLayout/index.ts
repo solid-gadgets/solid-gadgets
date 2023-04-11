@@ -6,4 +6,5 @@ const splitterDoms = document.querySelectorAll("so-splitter");
 splitterDoms.forEach(splitter => {
   splitter.setAttribute("style-code", styleCode);
 });
+
 registerSplitter();

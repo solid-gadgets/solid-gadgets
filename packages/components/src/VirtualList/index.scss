@@ -1,0 +1,13 @@
+.virtual-list__wrapper {
+  overflow: auto;
+  position: relative;
+  .virtual-list__phantom {
+    position: relative;
+  }
+  .virtual-list__content {
+    position: absolute;
+    width: fit-content;
+    height: fit-content;
+    top: 0;
+  }
+}
